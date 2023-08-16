@@ -10,18 +10,20 @@ import cv2
 import pyttsx3
 from GetFaceLocation import face_recog
 
-MyFaceNet = FaceNet()
 # def voice_setting():
 #     engine = pyttsx3.init() #初始化语音引擎
 #     engine.setProperty('rate', 200)   #设置语速
 #     engine.setProperty('volume',0.7)  #设置音量
 #     voices = engine.getProperty('voices') 
 #     engine.setProperty('voice',voices[0].id)   #设置第一个语音合成器
+
+MyFaceNet = FaceNet()
+# 從database中選擇與輸入的signature最相似(距離最小)的人臉特徵向量，並返回相應的身份和距離。
 def predict(signature, database):
     min_dist=100
     identity=' '
     for key, value in database.items() :
-        dist = np.linalg.norm(value-signature)
+        dist = np.linalg.norm(value-signature) #計算歐式距離
         if dist < min_dist:
             min_dist = dist
             identity = key
@@ -44,17 +46,16 @@ def Recognition(Training_Data, dictionary_ForName):
         # gbr1 = cv2.resize(gbr1, (320, 240))
         # print(gbr1.shape)
         # face_coordinate = face_recog(gbr1)  # 臉的座標
-        face_coordinate = face_recog(gbr1)  # 臉的座標
-        # live_img = Image.fromarray(cv2.cvtColor(gbr1, cv2.COLOR_BGR2RGB))         
-        live_img = Image.fromarray(cv2.cvtColor(gbr1, cv2.COLOR_BGR2RGB))         
+        face_coordinate = face_recog(gbr1)  # 臉的座標        
+        live_img = Image.fromarray(cv2.cvtColor(gbr1, cv2.COLOR_BGR2RGB)) #將Numpy數組轉換為PIL圖像        
         draw = ImageDraw.Draw(live_img)
-        font = ImageFont.truetype('simsun.ttc', 30, encoding = 'utf-8')
+        font = ImageFont.truetype('simsun.ttc', 30, encoding = 'utf-8') #設置繪製文字的字型
 
         if face_coordinate is not None:
             for(top, right, bottom, left) in face_coordinate:
                 gbr = cv2.cvtColor(gbr1, cv2.COLOR_BGR2RGB)
                 # print("gbr:", gbr.shape)
-                gbr = Image.fromarray(gbr)                  # konversi dari OpenCV ke PIL
+                gbr = Image.fromarray(gbr)    # 將Numpy數組轉換為PIL圖像
                 gbr_array = asarray(gbr)
                 face = gbr_array[top:bottom, left:right]
                 # print("face:", face.shape)                  
@@ -68,7 +69,7 @@ def Recognition(Training_Data, dictionary_ForName):
 
                 # cv2.rectangle(gbr1, (left, top), (right, bottom), (0, 0, 255), 2)            # 標記人臉外框
                 id, dist=predict(signature, Training_Data)
-                if dist < 0.62:
+                if dist < 0.62:  ## 這裡經過我們測試0.62是最適合的距離
                     id = str(id)
                     id = id.split(".")[0]        # 學號
                     all_id.append(id)
