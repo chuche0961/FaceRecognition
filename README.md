@@ -1,7 +1,7 @@
 # FaceRecognition
-- Just run the "RollCallSystem.py" file, and see if the objects that need to be imported in other PY files have been installed before running, such as face_recognition, cv2, pyttsx3, tensorflow, matplotlib.pyplot...
+- Simply run the "RollCallSystem.py" file and ensure that the required objects for importing in other PY files have been installed prior to execution. These objects include "face_recognition," "cv2," "pyttsx3," "tensorflow," and "matplotlib.pyplot."
 
-- The training in TrainingData.pkl is me and my 32 classmates, if you want to add it, when you run "RollCallSystem.py", you will run "U wanna add a new one?" answer 1 (do not want to add answer 0), enter ID and name to add a face to recognition
+- The "TrainingData.pkl" file contains training data for myself and my 32 classmates. If you wish to include additional data, execute "RollCallSystem.py" and respond with "1" when prompted with "U wanna add a new one?" (To decline, input "0"). Follow by entering the ID and name to add a new face for recognition.
 
 
 # FaceRecognition
